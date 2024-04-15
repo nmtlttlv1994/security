@@ -1,0 +1,43 @@
+app:
+  db:
+    schema: master
+    port: '${env.db.port:5432}'
+    endpoint: '${env.db.endpoint:localhost}'
+    database: '${env.db.database:postgres}'
+    username: '${env.db.username:postgres}'
+    password: '${env.db.password:123456}'
+    pool:
+      minimum: '${env.db.pool.minimum:2}'
+      maximum: '${env.db.pool.maximum:10}'
+spring:
+  application:
+    name: spring-security-jwt
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: 'jdbc:postgresql://${app.db.endpoint}:${app.db.port}/${app.db.database}'
+    username: '${app.db.username}'
+    password: '${app.db.password}'
+    auto-commit: true
+    minimum-idle: ${app.db.pool.minimum}
+    maximum-pool-size: ${app.db.pool.maximum}
+    max-lifetime: 30000
+    idle-timeout: 10000
+    connection-timeout: 20000
+    initialization-fail-timeout: 30000
+    tomcat:
+      test-on-borrow: true
+      validation-query: SELECT 1
+      validation-interval: 0
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 180000
+      minimum-idle: ${app.db.pool.minimum}
+      maximum-pool-size: ${app.db.pool.maximum}
+      auto-commit: true
+  main:
+    allow-circular-references: true
+
